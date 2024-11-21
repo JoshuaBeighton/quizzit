@@ -1,0 +1,47 @@
+{
+    "Name":"Captials Of The World Quiz",
+    "Created":"21/11/2024",
+    "Questions":[
+        {
+            "Question":"What is the captial of Paris?",
+            "Correct":"Paris",
+            "Answers":[
+                "Paris",
+                "Marseille",
+                "Lyon",
+                "Bordeaux"
+            ]
+
+        },
+        {
+            "Question":"What is the captial of Germany?",
+            "Correct":"Berlin",
+            "Answers":[
+                "Hamburg",
+                "Stuttgart",
+                "Berlin",
+                "Frankfut"
+            ]
+        },
+        {
+            "Question":"What is the captial of the UK?",
+            "Correct":"London",
+            "Answers":[
+                "Birmingham",
+                "Edinburgh",
+                "Manchester",
+                "London"
+            ]
+        },
+        {
+            "Question":"What is the captial of Spain?",
+            "Correct":"Madrid",
+            "Answers":[
+                "Madrid",
+                "Barcelona",
+                "Malaga",
+                "Valencia"
+            ]
+        }
+    ]
+}

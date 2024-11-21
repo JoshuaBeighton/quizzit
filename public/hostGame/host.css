@@ -1,0 +1,50 @@
+#game_picker{
+    display: flex;
+    justify-self: center;
+    align-items: center;
+}
+
+.question_div, .answer_div{
+    display: flex;
+}
+
+.question_div{
+    background-color: lightgray;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 5px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.answer_div{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+}
+
+.quiz_questions{
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.quiz_div{
+    margin: 5px;
+}
+
+.correct{
+    background-color: lightgreen;
+    border-radius: 5px;
+}
+
+.answer{
+    margin: 5px;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
