@@ -1,0 +1,31 @@
+#join_form{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    border-radius: 5px;
+    background-color: lightgray;
+    width: 70%;
+    padding: 5px;
+}
+
+#join_button{
+    margin-top: 5px;
+    font-size: medium;
+    border-radius: 5px;
+    background-color: aqua;
+}
+
+#join_name_div{
+    display: flex;
+    flex-direction: column;
+}
+
+#input_name{
+    height:2em;
+    font-size: medium;
+}
+
+.incorrect{
+    border-color: red;
+    background-color: lightcoral;
+}

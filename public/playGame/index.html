@@ -4,13 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="index.js"></script>
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="play.css">
 </head>
 
 <body>
     <div id="header">
         <h1>Quzzit!</h1>
     </div>
+    <div id="join_form">
+        <div id="join_name_div">
+        <label for="input_name">Username</label>
+        <input type="text" id="input_name">
+        </div>
+        <button id="join_button">Join</button>
+    </div>
+    <div id = "waiting_text" class="hidden">
+        <h4>Waiting for host to start game.</h4>
+    </div>
+</div>
 </body>
 
 </html>

@@ -1,7 +1,18 @@
 #game_picker{
     display: flex;
+    flex-direction: column;
     justify-self: center;
-    align-items: center;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    border-width: 1px;
+    border-color: black;
+    border-style: dashed;
+    background-color: lightgray;
+}
+
+#game_input{
+    margin-top: 5px;
 }
 
 .question_div, .answer_div{
@@ -33,6 +44,8 @@
 }
 
 .quiz_div{
+    overflow: hidden;
+    height: 80%;
     margin: 5px;
 }
 
@@ -47,4 +60,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.clients_div{
+    display: flex;
+    align-self: center;
+    width: 90%;
+    height: 60%;
+    margin: 15px;
+    background-color: rgb(230,230,230);
+}
+
+.clients_div>p{
+    margin: 4px;
 }
