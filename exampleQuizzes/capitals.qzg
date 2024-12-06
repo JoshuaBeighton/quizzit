@@ -1,6 +1,7 @@
 {
     "Name":"Captials Of The World Quiz",
     "Created":"21/11/2024",
+    "Author":"Joshua Beighton",
     "Questions":[
         {
             "Question":"What is the captial of Paris?",

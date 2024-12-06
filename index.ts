@@ -1,6 +1,5 @@
 import express, { Request, Response } from "npm:express";
 
-
 const app = express();
 app.use(express.json());
 app.use(express.static("public"));
@@ -8,20 +7,20 @@ app.use(express.static("public"));
 const currentPlayers: string[] = [];
 
 let gameStarted = false;
+let questionNo = 0;
+let currentQuestion;
 
-
-app.post("/hostgame/clientwaiting",async (req: Request, res: Response) => {
-    console.log("Waiting for player.")
+app.post("/hostgame/clientwaiting", async (req: Request, res: Response) => {
+    console.log("Waiting for player.");
     try {
         const nextPlayer = await waitForNewPlayers(req.body.players);
         console.log("Returning");
-        res.send(nextPlayer);        
+        res.send(nextPlayer);
     } catch (_error) {
         res.status(201);
         res.send("Game Started");
-   
     }
-    });
+});
 
 app.post("/hostgame/startgame", (_req: Request, res: Response) => {
     res.send("ack");
@@ -58,7 +57,7 @@ function waitForGameStarting() {
 
 app.get("/playgame", async (_req: Request, res: Response) => {
     const file = await (Deno.open("public/playGame/index.html"));
-    const decoder = new TextDecoder;
+    const decoder = new TextDecoder();
     let toSend = "";
     for await (const chunk of file.readable) {
         toSend += decoder.decode(chunk);
@@ -66,8 +65,8 @@ app.get("/playgame", async (_req: Request, res: Response) => {
     res.send(toSend);
 });
 
-app.post("/playgame/waitForStart", async (_req: Request, res: Response) => { 
-    console.log("Client is waiting for game to start!")
+app.post("/playgame/waitForStart", async (_req: Request, res: Response) => {
+    console.log("Client is waiting for game to start!");
     try {
         await waitForGameStarting();
         console.log("Starting game for client");
@@ -78,9 +77,28 @@ app.post("/playgame/waitForStart", async (_req: Request, res: Response) => {
     }
 });
 
-app.post("/playgame/newclient", function (req: Request, res: Response){
+app.post("/playgame/newclient", function (req: Request, res: Response) {
     currentPlayers.push(req.body.Name);
     res.send(currentPlayers);
 });
+
+app.post("/hostgame/question", function (req: Request, res: Response) {
+    currentQuestion = req.body;
+    questionNo++;
+    res.send("Ack");
+});
+
+app.post(
+    "/hostgame/awaitAnswers",
+    async function (_req: Request, res: Response) {
+        console.log("Waiting for responses");
+        await delay(2000);
+        res.send("Boo");
+    },
+);
+
+function delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 app.listen(8000);

@@ -1,7 +1,6 @@
-let _quiz;
+let quiz;
 let players = 0;
 let gameStarted = false;
-let playerJoined = true;
 
 document.addEventListener("DOMContentLoaded", () => {
     addOnFileLoadedListener();
@@ -19,7 +18,7 @@ function loadQuestions() {
     let tempQuiz;
     reader.addEventListener("load", (event) => {
         tempQuiz = JSON.parse(event.target.result);
-        _quiz = tempQuiz;
+        quiz = tempQuiz;
         createHTMLForQuiz(tempQuiz);
     });
     reader.readAsText(file);
@@ -88,6 +87,7 @@ async function enterPreGame() {
             while (body.children.length > 1) {
                 body.removeChild(body.children[1]);
             }
+            startGame(quiz);
         });
     });
 
@@ -107,6 +107,7 @@ function alertServerStartGame() {
             } else {
                 reject("Network error occurred.");
             }
+            gameStarted = true;
         };
 
         req.onerror = () => {
@@ -122,8 +123,11 @@ function alertServerStartGame() {
 function addPlayer(name) {
     const text = document.createElement("p");
     text.innerText = name;
-
-    document.querySelector(".clients_div").appendChild(text);
+    try {
+        document.querySelector(".clients_div").appendChild(text);
+    } catch (_error) {
+        console.log("Couldn't add client");
+    }
 }
 
 async function waitForNewPlayers() {
