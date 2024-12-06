@@ -1,48 +1,27 @@
 import express, { Request, Response } from "npm:express";
 
+
 const app = express();
 app.use(express.json());
+app.use(express.static("public"));
 
 const currentPlayers: string[] = [];
 
 let gameStarted = false;
 
-app.get("/hostgame", async (_req: Request, res: Response) => {
-    const file = await (Deno.open("public/hostGame/index.html"));
-    const decoder = new TextDecoder;
-    let toSend = "";
-    for await (const chunk of file.readable) {
-        toSend += decoder.decode(chunk);
-    }
-    res.send(toSend);
-});
-
-app.get("/hostgame/:fileName", async (req: Request, res: Response) => {
-    let fileName = "public/hostGame/" + req.params.fileName
-    if (req.params.fileName === "style.css") {
-        fileName = "public/style.css";
-    }
-    const file = await (Deno.open(fileName));
-    const decoder = new TextDecoder;
-    let toSend = "";
-    for await (const chunk of file.readable) {
-        toSend += decoder.decode(chunk);
-    }
-    if (fileName.endsWith(".css")) {
-        res.setHeader("content-type", "text/css");
-    }
-    else if (fileName.endsWith(".js")) {
-        res.setHeader("content-type", "application/javascript");
-    }
-    res.send(toSend);
-});
 
 app.post("/hostgame/clientwaiting",async (req: Request, res: Response) => {
     console.log("Waiting for player.")
-    const nextPlayer = await waitForNewPlayers(req.body.players);
-    console.log("Returning");
-    res.send(nextPlayer); 
-});
+    try {
+        const nextPlayer = await waitForNewPlayers(req.body.players);
+        console.log("Returning");
+        res.send(nextPlayer);        
+    } catch (_error) {
+        res.status(201);
+        res.send("Game Started");
+   
+    }
+    });
 
 app.post("/hostgame/startgame", (_req: Request, res: Response) => {
     res.send("ack");
@@ -61,10 +40,21 @@ function waitForNewPlayers(players: number) {
                 clearInterval(interval);
                 resolve(currentPlayers[currentPlayers.length - 1]);
             }
-        }, 100); // Check every 100ms
+        }, 50); // Check every 50ms
     });
 }
 
+function waitForGameStarting() {
+    return new Promise((resolve, _reject) => {
+        const interval = setInterval(() => {
+            console.log(gameStarted);
+            if (gameStarted) {
+                clearInterval(interval);
+                resolve("GAME STARTED");
+            }
+        }, 50); // Check every 50ms
+    });
+}
 
 app.get("/playgame", async (_req: Request, res: Response) => {
     const file = await (Deno.open("public/playGame/index.html"));
@@ -76,57 +66,21 @@ app.get("/playgame", async (_req: Request, res: Response) => {
     res.send(toSend);
 });
 
+app.post("/playgame/waitForStart", async (_req: Request, res: Response) => { 
+    console.log("Client is waiting for game to start!")
+    try {
+        await waitForGameStarting();
+        console.log("Starting game for client");
+        res.send("GAME STARTED");
+    } catch (_error) {
+        res.status(501);
+        res.send("Error");
+    }
+});
+
 app.post("/playgame/newclient", function (req: Request, res: Response){
-    console.log("New PLayer Alert!!")
     currentPlayers.push(req.body.Name);
     res.send(currentPlayers);
-});
-
-app.get("/playgame/:fileName", async (req: Request, res: Response) => {
-    let fileName = "public/playGame/" + req.params.fileName
-    if (req.params.fileName === "style.css") {
-        fileName = "public/style.css";
-    }
-    const file = await (Deno.open(fileName));
-    const decoder = new TextDecoder;
-    let toSend = "";
-    for await (const chunk of file.readable) {
-        toSend += decoder.decode(chunk);
-    }
-    if (fileName.endsWith(".css")) {
-        res.setHeader("content-type", "text/css");
-    }
-    else if (fileName.endsWith(".js")) {
-        res.setHeader("content-type", "application/javascript");
-    }
-    res.send(toSend);
-});
-
-app.get("/", async (_req: Request, res: Response) => {
-    const file = await(Deno.open("public/index.html"));
-    const decoder = new TextDecoder;
-    let toSend = "";
-    for await (const chunk of file.readable) {
-        toSend += decoder.decode(chunk);
-    }
-    res.send(toSend);
-});
-
-app.get("/:fileName", async (req: Request, res: Response) => {
-    const fileName = "public/" + req.params.fileName
-    const file = await (Deno.open(fileName));
-    const decoder = new TextDecoder;
-    let toSend = "";
-    for await (const chunk of file.readable) {
-        toSend += decoder.decode(chunk);
-    }
-    if (fileName.endsWith(".css")){
-        res.setHeader("content-type", "text/css");
-    }
-    else if (fileName.endsWith(".js")){
-        res.setHeader("content-type", "application/javascript");
-    }
-    res.send(toSend);
 });
 
 app.listen(8000);

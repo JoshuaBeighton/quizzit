@@ -74,3 +74,8 @@
 .clients_div>p{
     margin: 4px;
 }
+
+#start_game_button{
+    margin-left: 15px;
+    width: 90%;
+}
