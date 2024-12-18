@@ -5,7 +5,7 @@ async function startGame(quiz) {
     for (const question of quiz.Questions) {
         startQuestion(question);
         await delay(5000);
-        sendQuestionToServer();
+        sendQuestionToServer(question);
         displayAnswers(question);
         await waitForResponses();
         clearScreen();
@@ -109,6 +109,7 @@ function sendQuestionToServer(question) {
 
         req.open("POST", "/hostgame/question");
         req.setRequestHeader("Content-Type", "application/json");
+        console.log(question);
         req.send(JSON.stringify({ question }));
     });
 }

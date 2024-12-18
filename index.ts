@@ -85,6 +85,7 @@ app.post("/playgame/newclient", function (req: Request, res: Response) {
 app.post("/hostgame/question", function (req: Request, res: Response) {
     currentQuestion = req.body;
     questionNo++;
+    console.log(currentQuestion);
     res.send("Ack");
 });
 
