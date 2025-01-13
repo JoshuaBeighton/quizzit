@@ -2,9 +2,13 @@
 
 A web-based quiz app that allows a host to show questions and users to respond.
 
+## Dependencies
+
+The server requires deno and expressJS.
+
 ## Running the server
 
-The server is run through deno, so can be run by installing deno then running:
+The server is run through deno, so can be run using:
 
 ```bash
 deno index.ts
